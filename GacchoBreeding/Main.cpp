@@ -1,16 +1,30 @@
 #include "Option.hpp"
 
+inline void textureOption(MC& mc, Control& ct)
+{
+	for (size_t i = 0; i < control_pet_max; ++i) {
+		if (ct.petLive(i) == BORN_STATUS) {
+			mc.texture_main_data_render[CHO_TEXTURE].draw(Pos4(ct.petPos(i)));
+		}
+	}
+}
+
 //開始画面
 void startScene(MC& mc)
 {
+	//セーブネーム
 	const char* const control_file_name = u8"gb.as";
 
 	Control ct = asReadControl(control_file_name);
+	ct.timeUpdate().timeEvent().fieldSet(mc.windowSize());
 	while (mc.isLoop() && AsLoop())
 	{
-
+		ct.randMove(6);
+		textureOption(mc, ct);
 	}
 	mc.loopEnd();
+	ct.timeSet();
+	//セーブデータ保存
 	asWriteControl(control_file_name, ct);
 }
 
@@ -46,7 +60,7 @@ void logoScene2(MC& mc)
 int32_t AsMain()
 {
 	//管理クラス
-	MC mc(u8"GacchoBreeding", asWindowSize({ 960,540 }), BG_COLOR);
+	MC mc(u8"GacchoBreeding", asWindowSize({ 1920,1080 }), BG_COLOR);
 
 	//読み込み
 	sceneInit(mc);

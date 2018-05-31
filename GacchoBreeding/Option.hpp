@@ -8,7 +8,13 @@ constexpr size_t ASLIB_GAME_PAD_MAX = 16;
 
 using MC = AsLib::MainControl;
 
+#include <ctime>
+
+//シーン系
 #include "Option_Scene.hpp"
+//画像系
 #include "Option_Texture.hpp"
+//UI系
 #include "Option_UI.hpp"
+//基本データ系
 #include "Option_Data.hpp"

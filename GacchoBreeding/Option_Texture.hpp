@@ -9,8 +9,8 @@ enum :size_t {
 //‰æ‘œ“Ç‚İ‚İ
 inline void textureInit(MC& mc)
 {
-	mc.textureAdd("gahaku.png");
-	mc.textureAdd("kuro.png");
-	mc.textureAdd("ebikari.png");
-	mc.textureAdd("ebiesa.png");
+	mc.textureAdd("picture/gahaku.png");
+	mc.textureAdd("picture/kuro.png");
+	mc.textureAdd("picture/ebikari.png");
+	mc.textureAdd("picture/ebiesa.png");
 }

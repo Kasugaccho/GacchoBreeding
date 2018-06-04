@@ -1,3 +1,4 @@
+#define ASLIB_INCLUDE_DL
 #include "Option.hpp"
 
 inline void textureOption(MC& mc, Control& ct)
@@ -32,35 +33,35 @@ void startScene(MC& mc)
 void mainScene(MC& mc)
 {
 
-	mc.draw4(GAHAKU2_TEXUI);
+	mc.texture(GAHAKU2_TEXUI);
 
 	//命令レイヤー
-	if (mc.isTexUI_Touch(GAHAKU2_TEXUI)) mc.sceneSelect(LOGO_SCENE1);
+	if (mc.touchTex(GAHAKU2_TEXUI)) mc.scene(LOGO_SCENE1);
 }
 
 //終了画面
 void endScene(MC& mc)
 {
-	mc.draw4(GAHAKU_TEXUI);
+	mc.texture(GAHAKU_TEXUI);
 }
 
 //タイトルロゴ1
 void logoScene1(MC& mc)
 {
-	mc.drawLogoInOut(GAHAKU_TEXTURE, 1000, 2000, 3000, START_SCENE);
+	mc.logoTex(GAHAKU_TEXTURE, 1000, 2000, 3000, START_SCENE);
 	//if (mc.isTouch()) mc.sceneSelect(START_SCENE);
 }
 
 void logoScene2(MC& mc)
 {
-	mc.drawLogoInOut(GAHAKU_TEXTURE, 1000, 2000, 3000, LOGO_SCENE2);
+	mc.logoTex(GAHAKU_TEXTURE, 1000, 2000, 3000, LOGO_SCENE2);
 }
 
 //メイン関数
 int32_t AsMain()
 {
-	//管理クラス
-	MC mc(u8"GacchoBreeding", asWindowSize({ 1920,1080 }), BG_COLOR);
+	//管理クラスの宣言
+	MC mc(u8"GacchoBreeding", asSP_FullScreenSize({ 1920,1080 }), BG_COLOR);
 
 	//読み込み
 	sceneInit(mc);
@@ -68,21 +69,10 @@ int32_t AsMain()
 	UI_Init(mc);
 
 	//初期シーン
-	mc.sceneSelect(LOGO_SCENE1);
+	mc.scene(LOGO_SCENE1);
 
 	//メインループ
 	while (mc.isLoop()) mc.scenePlay();
-
-	//終了処理
-	asEnd();
 	return 0;
 }
 
-//----------------------------------------------------------------------------------------------------
-#if defined(ASLIB_INCLUDE_C)
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) { return int(AsMain()); }
-#elif defined(ASLIB_INCLUDE_CPP)
-void Main() { AsMain(); return; }
-#else
-int main() { return int(AsMain()); }
-#endif

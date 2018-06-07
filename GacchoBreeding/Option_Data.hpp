@@ -41,7 +41,7 @@ public:
 	Control& bornEvent(const size_t);
 	Control& fieldSet(const Pos2& add_pos) { this->field = add_pos; return *this; };
 	Control& timeSet() { this->now_time = int64_t(std::time(nullptr)); return *this; };
-	Control& randMove(const int32_t move);
+	Control& randMove(const uint32_t move);
 
 	//o—Í
 	Pos2 Field() const { return this->field; };
@@ -65,11 +65,10 @@ private:
 	Pos2 field = { 1000,1000 };
 };
 
-inline Control& Control::randMove(const int32_t move)
+inline Control& Control::randMove(const uint32_t move)
 {
 	for (size_t i = 0; i < control_pet_max; ++i) {
-		pet[i].pos.x += (rand32(move) - (move >> 1));
-		pet[i].pos.y += (rand32(move) - (move >> 1));
+		pet[i].pos.randPlus(move);
 	}
 	return *this;
 }
@@ -83,7 +82,7 @@ inline Control& Control::bornEvent(const size_t born_id)
 
 inline Control& Control::timeEvent()
 {
-	const size_t add_born = size_t(rand32((this->sub_time >> int64_t(1)) & INT32_MAX));
+	const size_t add_born = size_t(rand32(int32_t(this->sub_time >> int64_t(1)) & INT32_MAX));
 	for (size_t i = 0; i < add_born; ++i) {
 		for (size_t j = 0; j < control_pet_max; ++j) {
 			if (pet[j].live_status == EMPTY_STATUS) {
@@ -102,7 +101,7 @@ inline Control& Control::timeEvent()
 
 inline Control& Control::timeUpdate()
 {
-	const int64_t get_time = std::time(nullptr);
+	const int64_t get_time = int64_t(std::time(nullptr));
 	if (this->now_time > get_time) return *this;
 
 	if (this->now_time == 0) this->now_time = get_time;
@@ -112,6 +111,7 @@ inline Control& Control::timeUpdate()
 	return *this;
 }
 
+//“Ç‚İ‚İ
 Control asReadControl(const char* const file_name)
 {
 	Control ct = {};
@@ -120,6 +120,7 @@ Control asReadControl(const char* const file_name)
 	return ct;
 }
 
+//‘‚«‚İ
 inline int32_t asWriteControl(const char* const file_name, Control& add_control)
 {
 	return asWrite(file_name, &add_control, sizeof(add_control), 1);

@@ -16,3 +16,6 @@ using MC = AsLib::MainControl;
 #include "Option_UI.hpp"
 //基本データ系
 #include "Option_Data.hpp"
+
+//全てのシーン
+#include "All_Scene.hpp"
